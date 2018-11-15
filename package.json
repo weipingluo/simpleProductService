@@ -7,7 +7,7 @@
     "build": "babel src/ -d dist/",
     "start": "nodemon src/index.js --exec babel-node",
     "serve": "pm2 start dist/index.js",
-    "test": "mocha dist/test/*"
+    "test": "mocha dist/test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "express": "^4.16.4",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.12",
+    "mongodb": "^3.1.9",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

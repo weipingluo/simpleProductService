@@ -1,5 +1,5 @@
-import FlightDate from '../shared/FlightDate';
-import Product from '../product/Product';
+import FlightDate from '../../domain/shared/FlightDate';
+import Product from '../../domain/product/Product';
 var assert = require('assert');
 var expect = require("chai").expect;
 

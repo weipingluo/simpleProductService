@@ -1,4 +1,4 @@
-import FlightDate from '../shared/FlightDate';
+import FlightDate from '../../domain/shared/FlightDate';
 var assert = require('assert');
 var expect = require("chai").expect;
 describe('FlightDate', function() {
