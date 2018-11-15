@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src/ -d dist/",
-    "start": "nodemon src/index.js --exec babel-node",
+    "start": "nodemon src/server.js --exec babel-node",
     "serve": "pm2 start dist/index.js",
     "test": "mocha dist/test/**/*.js"
   },
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/weipingluo/simpleProductService#readme",
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "bluebird": "^3.5.3",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
     "moment": "^2.22.2",

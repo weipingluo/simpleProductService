@@ -13,7 +13,7 @@ MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db(dbName);
 
-    var prod = new Product(3, "Test Product");
+    var prod = new Product(2, "Test Product");
     prod.displayName("en", "EN Name");
 
     var fd = new FlightDate("2018-01-01", "2018-01-31");
