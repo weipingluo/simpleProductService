@@ -1,27 +1,37 @@
 import express from 'express';
-import Promise from 'bluebird';
 import { MongoClient } from 'mongodb';
 import config from './config';
 import { urlencoded, json } from 'body-parser';
+import routes from './api/routes/productRoutes'; //importing route
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
-import routes from './api/routes/productRoutes'; //importing route
 routes(app);
-//app.use('/api/users', require('./api/users'));
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
+    res.send('Hello World');
 });
 
-MongoClient.connect(config.database.url, { promiseLibrary: Promise, useNewUrlParser: true })
-  .catch(err => console.error(err.stack))
-  .then(db => {
-    app.locals.db = db;
-    app.listen(port, () => {
-      console.log(`Node.js app is listening at http://localhost:${port}`);
+let dbClient;
+
+MongoClient
+    .connect(config.database.url, { useNewUrlParser: true, poolSize: 10 })
+    .catch(err => console.error(err.stack))
+    .then(client => {
+        dbClient = client;
+        const db = client.db(config.database.db);
+        app.locals.db = db;
     });
-  });
+
+process.on('SIGINT', () => {
+    dbClient.close();
+    console.log("Close db connection.");
+    process.exit();
+})
+
+app.listen(port, () => {
+    console.log(`Node.js app is listening at http://localhost:${port}`);
+});

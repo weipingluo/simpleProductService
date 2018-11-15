@@ -3,8 +3,7 @@ import Product from '../../domain/product/Product';
 
 exports.list_all_items = function (req, res) {
     const db = req.app.locals.db;
-    const dbo = db.db('bk');
-    const products = dbo.collection('products').find({}).toArray(function (err, result) {
+    const products = db.collection('products').find({}).toArray(function (err, result) {
         if (err) {
             res.send(err);
         }
@@ -12,15 +11,11 @@ exports.list_all_items = function (req, res) {
     });
 };
 
-
-
-
 exports.create_an_item = function (req, res) {
     const db = req.app.locals.db;
-    const dbo = db.db("bk");
 
     var newProduct = new Product(req.body.productCode, req.body.serverName);
-    dbo.collection("products").insertOne(newProduct, function(err, result) {
+    db.collection("products").insertOne(newProduct, function(err, result) {
         if (err) {
             res.send(err);
         }
