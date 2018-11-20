@@ -1,7 +1,7 @@
 'use strict';
 import Product from '../../domain/product/Product';
 
-exports.list_all_items = function (req, res) {
+exports.list_all_products = function (req, res) {
     const db = req.app.locals.db;
     const products = db.collection('products').find({}).toArray(function (err, result) {
         if (err) {
@@ -11,11 +11,11 @@ exports.list_all_items = function (req, res) {
     });
 };
 
-exports.create_an_item = function (req, res) {
+exports.create_a_product = function (req, res) {
     const db = req.app.locals.db;
 
     var newProduct = new Product(req.body.productCode, req.body.serverName);
-    db.collection("products").insertOne(newProduct, function(err, result) {
+    db.collection("products").insertOne(newProduct, function (err, result) {
         if (err) {
             res.send(err);
         }
@@ -24,32 +24,45 @@ exports.create_an_item = function (req, res) {
 };
 
 
-// exports.read_an_item = function(req, res) {
-//     MenuItem.findById(req.params.itemId, function(err, item) {
-//     if (err)
-//       res.send(err);
-//     res.json(item);
-//   });
-// };
+exports.read_a_product = function (req, res) {
+    const db = req.app.locals.db;
+    var product = db.collection("products").findOne({ productCode: req.params.productCode }, function (err, result) {
+        if (err) {
+            res.send(err);
+        }
+        if (result === null) {
+            res.status(404);
+            res.send({ error: 'Not found' });
+        } else {
+            res.json(result);
+        }
+    });
+};
 
 
-// exports.update_an_item = function(req, res) {
-//     MenuItem.findOneAndUpdate({_id: req.params.itemId}, req.body, {new: true}, function(err, item) {
-//     if (err)
-//       res.send(err);
-//     res.json(item);
-//   });
-// };
+exports.update_a_product = function (req, res) {
+    const db = req.app.locals.db;
+    var newProduct = new Product(req.body.productCode, req.body.serverName);
+    console.log(newProduct);
+    var product = db.collection("products")
+        .updateOne(
+            { productCode: req.params.productCode },
+            {$set: newProduct},
+            function (err, result) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(result);
+            });
+};
 
 
-// exports.delete_an_item = function(req, res) {
-
-
-//   Item.remove({
-//     _id: req.params.itemId
-//   }, function(err, item) {
-//     if (err)
-//       res.send(err);
-//     res.json({ message: 'MenuItem successfully deleted' });
-//   });
-//};
+exports.delete_a_product = function (req, res) {
+    const db = req.app.locals.db;
+    db.collection("products").deleteOne({ productCode: req.params.productCode }, function (err, result) {
+        if (err) {
+            res.send(err);
+        }
+        res.json(result);
+    });
+};

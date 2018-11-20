@@ -14,11 +14,11 @@ export default class Product {
      * @param {string} [serverName=""]
      * @memberof Product
      */
-    constructor(productCode = uuidv1(), serverName="") {
+    constructor(productCode = uuidv1(), serverName="", displayNames=new Object(), price=[]) {
         this.productCode = productCode;
         this.serverName = serverName;
-        this.displayNames = new Object();
-        this.price = [];
+        this.displayNames = displayNames;
+        this.price = price;
     }
     
     /**

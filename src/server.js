@@ -2,14 +2,16 @@ import express from 'express';
 import { MongoClient } from 'mongodb';
 import config from './config';
 import { urlencoded, json } from 'body-parser';
-import routes from './api/routes/productRoutes'; //importing route
+import productRoutes from './api/routes/productRoutes'; //importing route
+import geoRoutes from './api/routes/geoRoutes';
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
-routes(app);
+productRoutes(app);
+geoRoutes(app);
 
 app.get('/', (req, res) => {
     res.send('Hello World');
